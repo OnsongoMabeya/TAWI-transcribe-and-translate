@@ -6,24 +6,24 @@ A real-time speech transcription and translation app that runs entirely in the b
 
 1. **Speech Recognition**
 
-- Uses OpenAI's Whisper model (via [`transcriptionWorker.js`](src/transcriptionWorker.js))
-- Captures audio from browser microphone
-- Processes speech in real-time using WebGPU acceleration
-- Supports multiple input languages
+    - Uses OpenAI's Whisper model (via [`transcriptionWorker.js`](src/transcriptionWorker.js))
+    - Captures audio from browser microphone
+    - Processes speech in real-time using WebGPU acceleration
+    - Supports multiple input languages
 
 2. **Broadcasting**
 
-- Creates a unique channel ID for each session
-- Broadcasts transcribed text via Supabase Realtime
-- Listeners can join using channel ID URL
-- Implemented in [`broadcaster.jsx`](src/routes/broadcaster.jsx)
+    - Creates a unique channel ID for each session
+    - Broadcasts transcribed text via Supabase Realtime
+    - Listeners can join using channel ID URL
+    - Implemented in [`broadcaster.jsx`](src/routes/broadcaster.jsx)
 
 3. **Translation**
 
-- Uses Meta's NLLB-200 model for translation
-- Supports 200+ languages
-- Runs entirely in browser using WebWorkers
-- Translation logic in [`translationWorker.js`](src/translationWorker.js)
+    - Uses Meta's NLLB-200 model for translation
+    - Supports 200+ languages
+    - Runs entirely in browser using WebWorkers
+    - Translation logic in [`translationWorker.js`](src/translationWorker.js)
 
 4. **Receiving**
 
@@ -44,9 +44,9 @@ A real-time speech transcription and translation app that runs entirely in the b
 
 2. Copy environment file:
 
-```sh
-cp .env.local.example .env.local
-```
+    ```sh
+    cp .env.local.example .env.local
+    ```
 
 3. Configure Supabase:
 
@@ -55,10 +55,10 @@ cp .env.local.example .env.local
 
 4. Install dependencies and run:
 
-```sh
-npm install
-npm run dev
-```
+    ```sh
+    npm install
+    npm run dev
+    ```
 
 ## Deployment
 
