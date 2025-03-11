@@ -10,15 +10,6 @@ A realtime, live transcription and translation app that works locally using a br
 
 🌏 Translate to 200 languages with Meta's NLLB-200 [[translationWorker.js](./src/translationWorker.js)]
 
-## Demo
-
-Watch a demo / tutorial
-
-<a href="https://supabase.link/realtime-ai-yt" target="_blank">
-<img width="100%" alt="vlc-demo" src="https://github.com/user-attachments/assets/5f436444-6ebc-48ab-9ed1-24de62afd933">
-</a>
-
-
 ## Run locally
 
 - `cp .env.local.example .env.local`.
