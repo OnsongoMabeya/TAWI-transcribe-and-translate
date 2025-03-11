@@ -125,9 +125,9 @@ function App({ supabase }) {
   return (
     <div className="flex flex-col h-screen mx-auto justify-end text-gray-800 bg-white">
       <div className="h-full overflow-auto scrollbar-thin flex justify-center items-center flex-col relative">
-        <GitHubLink url="https://github.com/supabase-community/babelfish.ai" />
+        <GitHubLink url="https://github.com/OnsongoMabeya/TAWI-transcribe-and-translate" />
         <div className="flex flex-col items-center mb-1 max-w-[400px] text-center">
-          <h1 className="text-4xl font-bold mb-1">Babelfish.ai - Receiver</h1>
+          <h1 className="text-4xl font-bold mb-1">TAWI - Receiver</h1>
           <h2 className="text-xl font-semibold">
             Real-time in-browser speech recognition & decentralized in-browser
             AI translation.
