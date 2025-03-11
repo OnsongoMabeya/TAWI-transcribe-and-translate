@@ -27,10 +27,10 @@ A real-time speech transcription and translation app that runs entirely in the b
 
 4. **Receiving**
 
-- Listeners receive transcribed text in real-time
-- Can select target language for translation
-- Translations update live as speech is received
-- Handled by [`receiver.jsx`](src/routes/receiver.jsx)
+    - Listeners receive transcribed text in real-time
+    - Can select target language for translation
+    - Translations update live as speech is received
+    - Handled by [`receiver.jsx`](src/routes/receiver.jsx)
 
 ## Requirements
 
