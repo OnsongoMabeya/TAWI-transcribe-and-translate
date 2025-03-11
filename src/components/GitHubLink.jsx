@@ -13,7 +13,7 @@ export default function GitHubLink({ url }) {
       rel="noreferrer"
     >
       <GithubIcon className="h-5 w-5" />
-      Check out the Code!
+      Check out the TAWI transcription & translation Code!
     </a>
   );
 }
