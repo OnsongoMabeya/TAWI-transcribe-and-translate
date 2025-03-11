@@ -130,7 +130,9 @@ function App({ supabase }) {
           <h1 className="text-4xl font-bold mb-1">TAWI - Receiver</h1>
           <h2 className="text-xl font-semibold">
             Real-time in-browser speech recognition & decentralized in-browser
-            AI translation.
+          </h2>
+          <h2 className="text-xl font-semibold">
+            TAWI AI translation.
           </h2>
         </div>
 
