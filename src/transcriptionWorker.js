@@ -177,4 +177,5 @@ useEffect(() => {
     worker.onerror = (error) => {
         console.error('Worker error:', error);
     };
-    }, []);
+    }, []
+);
