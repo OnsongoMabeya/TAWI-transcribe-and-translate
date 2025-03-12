@@ -1,12 +1,44 @@
-
 import {
     AutoTokenizer,
     AutoProcessor,
     WhisperForConditionalGeneration,
     TextStreamer,
     full,
+    pipeline,
 } from '@xenova/transformers';
 
+let transcriber = null;
+
+self.addEventListener('message', async (event) => {
+    try {
+        if (!transcriber) {
+        self.postMessage({ status: 'loading' });
+        
+        // Add progress callback
+        transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en', {
+            progress_callback: (progress) => {
+            self.postMessage({ 
+                status: 'loading-progress',
+                progress: progress
+            });
+            }
+        });
+        
+        self.postMessage({ status: 'ready' });
+        }
+
+        // Handle transcription
+        const result = await transcriber(event.data);
+        self.postMessage({ status: 'complete', text: result.text });
+        
+    } catch (error) {
+        console.error('Transcription error:', error);
+        self.postMessage({ 
+        status: 'error',
+        error: error.message
+        });
+    }
+});
 
 const MAX_NEW_TOKENS = 64;
 
@@ -132,3 +164,17 @@ self.addEventListener('message', async (e) => {
             break;
     }
 });
+
+useEffect(() => {
+    console.log('Initializing transcription worker...');
+    const worker = new Worker(new URL('../transcriptionWorker.js', import.meta.url));
+    
+    worker.onmessage = (event) => {
+        console.log('Worker message:', event.data);
+        // ...existing code...
+    };
+    
+    worker.onerror = (error) => {
+        console.error('Worker error:', error);
+    };
+    }, []);
