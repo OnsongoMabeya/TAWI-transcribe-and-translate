@@ -51,6 +51,9 @@ function App({ supabase }) {
           type: 'module',
         }
       );
+
+      // Send initial load message to worker
+      worker.current.postMessage({ type: 'load' });
     }
 
     // Create a callback function for messages from the worker thread.

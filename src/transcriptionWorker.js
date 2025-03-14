@@ -164,18 +164,3 @@ self.addEventListener('message', async (e) => {
             break;
     }
 });
-
-useEffect(() => {
-    console.log('Initializing transcription worker...');
-    const worker = new Worker(new URL('../transcriptionWorker.js', import.meta.url));
-    
-    worker.onmessage = (event) => {
-        console.log('Worker message:', event.data);
-        // ...existing code...
-    };
-    
-    worker.onerror = (error) => {
-        console.error('Worker error:', error);
-    };
-    }, []
-);
