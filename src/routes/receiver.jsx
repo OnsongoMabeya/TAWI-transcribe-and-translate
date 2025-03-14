@@ -134,41 +134,47 @@ function App({ supabase }) {
         <div className="relative z-10 w-full max-w-4xl">
           <GitHubLink url="https://github.com/OnsongoMabeya/TAWI-transcribe-and-translate" />
           
-          <div className="flex flex-col items-center mb-8 animate-float">
-            <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-900 to-accent-dark">
-              TAWI - Receiver
-            </h1>
-            <div className="space-y-2 text-center">
-              <h2 className="text-2xl font-semibold text-primary-900">
-                Real-time in-browser speech recognition
-              </h2>
-              <h2 className="text-2xl font-semibold text-primary-900">
-                & decentralized in-browser TAWI AI translation
-              </h2>
+          <div className="flex flex-col items-center mb-12">
+            <div className="text-center space-y-6">
+              <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-900 to-accent-dark">
+                TAWI - Receiver
+              </h1>
+              <div className="max-w-2xl mx-auto">
+                <p className="text-2xl font-medium text-primary-800 leading-relaxed">
+                  Real-time in-browser speech recognition & decentralized AI translation
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col items-center space-y-6">
+          <div className="flex flex-col items-center space-y-8 w-full max-w-3xl mx-auto">
             <div className="w-full space-y-6">
-              <div className="backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
-                <div className="mb-4">
-                  <h3 className="text-xl font-semibold text-primary-900 mb-2">
-                    Transcript:{' '}
-                    <span className="text-accent-dark">
-                      {Object.entries(LANGUAGES).find(
-                        ([key, val]) => val === sourceLanguage
-                      )?.[0]}
-                    </span>
-                  </h3>
-                  <div className="w-full min-h-[80px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
-                    {input}
+              <div className="backdrop-blur-sm bg-white/30 rounded-2xl p-8 shadow-xl border border-white/50">
+                <div className="space-y-6">
+                  {/* Transcript Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-2xl font-semibold text-primary-900">Transcript</h2>
+                      <div className="px-4 py-2 bg-white/50 rounded-xl">
+                        <span className="text-sm font-medium text-primary-700">
+                          Source Language:{' '}
+                          <span className="text-accent-dark font-semibold">
+                            {Object.entries(LANGUAGES).find(
+                              ([key, val]) => val === sourceLanguage
+                            )?.[0] || 'Auto-detect'}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-full min-h-[120px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
+                      {input || 'Waiting for broadcast...'}
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-semibold text-primary-900">Translation</h3>
-                    <div className="relative">
+                  {/* Translation Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-2xl font-semibold text-primary-900">Translation</h2>
                       <LanguageSelector
                         type={'Target'}
                         defaultLanguage={targetLanguage}
@@ -179,19 +185,20 @@ function App({ supabase }) {
                         }}
                       />
                     </div>
-                  </div>
-                  <div className="w-full min-h-[80px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
-                    {output}
+                    <div className="w-full min-h-[120px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
+                      {output || 'Translation will appear here...'}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {ready === false && (
-                <div className="w-full backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
-                  <p className="text-lg text-primary-900 mb-4 text-center font-medium">
-                    Loading models... (only run once)
-                  </p>
-                  <div className="space-y-4">
+                <div className="w-full backdrop-blur-sm bg-white/30 rounded-2xl p-8 shadow-xl border border-white/50">
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl font-semibold text-primary-900 mb-2">Loading Translation Models</h2>
+                    <p className="text-lg text-primary-800">This will only happen once</p>
+                  </div>
+                  <div className="space-y-6">
                     {progressItems.map((data) => (
                       <Progress
                         key={data.file}
