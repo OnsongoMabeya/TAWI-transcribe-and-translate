@@ -6,15 +6,19 @@
 
 export default function GitHubLink({ url }) {
   return (
-    <a
-      href={url}
-      className="mb-2 inline-flex items-center gap-2 text-primary hover:text-primary-foreground"
-      target="_blank"
-      rel="noreferrer"
-    >
-      <GithubIcon className="h-5 w-5" />
-      Check out the TAWI transcription & translation Code!
-    </a>
+    <div className="w-full flex justify-center mb-8">
+      <a
+        href={url}
+        className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-primary-900 hover:bg-white/20 transition-all transform hover:scale-[1.02]"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <GithubIcon className="h-6 w-6" />
+        <span className="font-medium">
+          Check out the TAWI transcription & translation Code!
+        </span>
+      </a>
+    </div>
   );
 }
 
