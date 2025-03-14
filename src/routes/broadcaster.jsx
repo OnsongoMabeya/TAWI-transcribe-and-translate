@@ -210,152 +210,154 @@ function App({ supabase }) {
   }, [status, recording, isProcessing, chunks, language]);
 
   return IS_WEBGPU_AVAILABLE ? (
-    <div className="flex flex-col h-screen mx-auto justify-end text-gray-800 bg-white">
-      <div className="h-full overflow-auto scrollbar-thin flex justify-center items-center flex-col relative">
-        <GitHubLink url="https://github.com/OnsongoMabeya/TAWI-transcribe-and-translate" />
-        <div className="flex flex-col items-center mb-1 max-w-[400px] text-center">
-          <h1 className="text-4xl font-bold mb-1">
-            TAWI - Broadcaster
-          </h1>
-          <h2 className="text-xl font-semibold">
-            Real-time in-browser speech recognition 
-            & decentralized in-browser
-          </h2>
-          <h2 className="text-xl font-semibold">
-            TAWI AI translation.
-          </h2>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-primary-400 via-accent-light to-primary-600 animate-gradient">
+      <div className="h-full min-h-screen overflow-auto scrollbar-thin flex justify-center items-center flex-col relative p-6">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 bg-white/30 backdrop-blur-md" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/30 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-300/30 rounded-full blur-3xl" />
+        
+        {/* Content */}
+        <div className="relative z-10 w-full max-w-4xl">
+          <GitHubLink url="https://github.com/OnsongoMabeya/TAWI-transcribe-and-translate" />
+          
+          <div className="flex flex-col items-center mb-8 animate-float">
+            <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-900 to-accent-dark">
+              TAWI - Broadcaster
+            </h1>
+            <div className="space-y-2 text-center">
+              <h2 className="text-2xl font-semibold text-primary-900">
+                Real-time in-browser speech recognition
+              </h2>
+              <h2 className="text-2xl font-semibold text-primary-900">
+                & decentralized in-browser TAWI AI translation
+              </h2>
+            </div>
+          </div>
 
-        <div className="flex flex-col items-center px-4">
-          {status === null && (
-            <>
-              <p className="max-w-[480px] mb-4">
-                <br />
-                You are about to load{' '}
-                <a
-                  href="https://huggingface.co/onnx-community/whisper-base"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium underline"
-                >
-                  whisper-base
-                </a>
-                , a 73 million parameter speech recognition model that is
-                optimized for inference on the web. Once downloaded, the model
-                (~200&nbsp;MB) will be cached and reused when you revisit the
-                page.
-                <br />
-                <br />
-                Everything runs directly in your browser using{' '}
-                <a
-                  href="https://huggingface.co/docs/transformers.js"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline"
-                >
-                  🤗&nbsp;Transformers.js
-                </a>{' '}
-                and ONNX Runtime Web, meaning no data is sent to a server. You
-                can even disconnect from the internet after the model has
-                loaded!
-              </p>
-
-              <button
-                className="border px-4 py-2 rounded-lg bg-blue-400 text-white hover:bg-blue-500 disabled:bg-blue-100 disabled:cursor-not-allowed select-none"
-                onClick={() => {
-                  worker.current.postMessage({ type: 'load' });
-                  setStatus('loading');
-                }}
-                disabled={status !== null}
-              >
-                START TRANSCRIBING
-              </button>
-            </>
-          )}
-
-          {status === 'ready' && (
-            <>
-              <p className="max-w-[480px] mb-4">
-                Your Broadcast Channel ID is{' '}
-                <pre className="inline-block bg-gray-20 py-1 px-2 rounded-md text-blue-500 font-medium">
-                  {channelId.current}
-                </pre>
-                . Send this link to your friends so they can receive the
-                broadcast and translate it in realtime!
-              </p>
-              <a
-                href={`${import.meta.env.BASE_URL}#/receiver/${
-                  channelId.current
-                }`}
-                target="_blank"
-                rel="noreferrer"
-                className="border px-4 py-2 rounded-lg bg-blue-400 text-white hover:bg-blue-500 disabled:bg-blue-100 disabled:cursor-not-allowed select-none"
-              >
-                {`${import.meta.env.VITE_DOMAIN}${
-                  import.meta.env.BASE_URL
-                }#/receiver/${channelId.current}`}
-              </a>
-            </>
-          )}
-
-          <div className="w-[500px] p-2">
-            <AudioVisualizer className="w-full rounded-lg" stream={stream} />
-            {status === 'ready' && (
-              <div className="relative">
-                <p className="w-full h-[80px] overflow-y-auto overflow-wrap-anywhere border rounded-lg p-2">
-                  {text}
+          <div className="flex flex-col items-center space-y-6">
+            {status === null && (
+              <div className="backdrop-blur-sm bg-white/30 rounded-2xl p-8 shadow-xl border border-white/50 transform transition-all hover:scale-[1.02]">
+                <p className="text-lg text-primary-900 leading-relaxed">
+                  <br />
+                  You are about to load{' '}
+                  <a
+                    href="https://huggingface.co/onnx-community/whisper-base"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-accent-dark hover:text-accent transition-colors underline"
+                  >
+                    whisper-base
+                  </a>
+                  , a 73 million parameter speech recognition model that is
+                  optimized for inference on the web. Once downloaded, the model
+                  (~200&nbsp;MB) will be cached and reused when you revisit the
+                  page.
+                  <br />
+                  <br />
+                  Everything runs directly in your browser using{' '}
+                  <a
+                    href="https://huggingface.co/docs/transformers.js"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-accent-dark hover:text-accent transition-colors underline"
+                  >
+                    🤗&nbsp;Transformers.js
+                  </a>
+                  {' '}and ONNX Runtime Web, meaning no data is sent to a server.
                 </p>
-                {tps && (
-                  <span className="absolute bottom-0 right-0 px-1">
-                    {tps.toFixed(2)} tok/s
-                  </span>
-                )}
+
+                <button
+                  className="mt-6 w-full px-6 py-3 bg-gradient-to-r from-primary-500 to-accent hover:from-primary-600 hover:to-accent-dark text-white font-semibold rounded-xl shadow-lg transform transition-all hover:scale-[1.02] focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => {
+                    worker.current.postMessage({ type: 'load' });
+                    setStatus('loading');
+                  }}
+                  disabled={status !== null}
+                >
+                  START TRANSCRIBING
+                </button>
+              </div>
+            )}
+
+            {status === 'ready' && (
+              <div className="w-full space-y-6">
+                <div className="backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
+                  <p className="text-lg text-primary-900 mb-4">
+                    Your Broadcast Channel ID is{' '}
+                    <pre className="inline-block bg-primary-100/50 py-1 px-3 rounded-lg text-primary-700 font-medium">
+                      {channelId.current}
+                    </pre>
+                  </p>
+                  <a
+                    href={`${import.meta.env.BASE_URL}#/receiver/${channelId.current}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block w-full text-center px-6 py-3 bg-gradient-to-r from-primary-500 to-accent text-white font-semibold rounded-xl shadow-lg transform transition-all hover:scale-[1.02] hover:from-primary-600 hover:to-accent-dark"
+                  >
+                    {`${import.meta.env.VITE_DOMAIN}${import.meta.env.BASE_URL}#/receiver/${channelId.current}`}
+                  </a>
+                </div>
+
+                <div className="backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
+                  <AudioVisualizer className="w-full rounded-xl mb-4" stream={stream} />
+                  <div className="relative">
+                    <div className="w-full h-[80px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
+                      {text}
+                    </div>
+                    {tps && (
+                      <span className="absolute bottom-2 right-2 px-2 py-1 bg-primary-100/50 rounded-lg text-sm text-primary-700">
+                        {tps.toFixed(2)} tok/s
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="relative w-full flex justify-between items-center backdrop-blur-sm bg-white/30 rounded-2xl p-4 shadow-xl border border-white/50">
+                  <LanguageSelector
+                    language={language}
+                    setLanguage={(e) => {
+                      recorderRef.current?.stop();
+                      setLanguage(e);
+                      languageRef.current = e;
+                      recorderRef.current?.start();
+                    }}
+                  />
+                  <button
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+                    onClick={() => {
+                      recorderRef.current?.stop();
+                      recorderRef.current?.start();
+                    }}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {status === 'loading' && (
+              <div className="w-full max-w-[500px] backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
+                <p className="text-center text-lg text-primary-900 mb-4">{loadingMessage}</p>
+                {progressItems.map(({ file, progress, total }, i) => (
+                  <Progress
+                    key={i}
+                    text={file}
+                    percentage={progress}
+                    total={total}
+                  />
+                ))}
               </div>
             )}
           </div>
-          {status === 'ready' && (
-            <div className="relative w-full flex justify-center">
-              <LanguageSelector
-                language={language}
-                setLanguage={(e) => {
-                  recorderRef.current?.stop();
-                  setLanguage(e);
-                  languageRef.current = e;
-                  recorderRef.current?.start();
-                }}
-              />
-              <button
-                className="border rounded-lg px-2 absolute right-2"
-                onClick={() => {
-                  recorderRef.current?.stop();
-                  recorderRef.current?.start();
-                }}
-              >
-                Reset
-              </button>
-            </div>
-          )}
-          {status === 'loading' && (
-            <div className="w-full max-w-[500px] text-left mx-auto p-4">
-              <p className="text-center">{loadingMessage}</p>
-              {progressItems.map(({ file, progress, total }, i) => (
-                <Progress
-                  key={i}
-                  text={file}
-                  percentage={progress}
-                  total={total}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
   ) : (
-    <div className="fixed w-screen h-screen bg-black z-10 bg-opacity-[92%] text-white text-2xl font-semibold flex justify-center items-center text-center">
-      WebGPU is not supported
-      <br />
-      by this browser :&#40;
+    <div className="fixed inset-0 bg-gradient-to-br from-primary-900 to-accent-dark text-white text-2xl font-semibold flex flex-col justify-center items-center text-center p-6 space-y-4">
+      <span className="text-4xl">😢</span>
+      <p>WebGPU is not supported by this browser</p>
+      <p className="text-lg text-primary-200">Try using Chrome Canary or another browser with WebGPU support</p>
     </div>
   );
 }

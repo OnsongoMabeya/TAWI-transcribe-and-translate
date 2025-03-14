@@ -7,7 +7,7 @@ export function AudioVisualizer({ stream, ...props }) {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const source = audioContext.createMediaStreamSource(stream);
         const analyser = audioContext.createAnalyser();
-        analyser.fftSize = 2048;
+        analyser.fftSize = 256;
         source.connect(analyser);
 
         const canvas = canvasRef.current;
@@ -17,42 +17,65 @@ export function AudioVisualizer({ stream, ...props }) {
 
         const drawVisual = () => {
             requestAnimationFrame(drawVisual);
-            analyser.getByteTimeDomainData(dataArray);
+            analyser.getByteFrequencyData(dataArray);
 
-            canvasCtx.fillStyle = 'rgb(255, 255, 255)';
+            // Create gradient background
+            const gradient = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, 'rgba(236, 72, 153, 0.1)'); // accent color
+            gradient.addColorStop(1, 'rgba(14, 165, 233, 0.1)'); // primary color
+            
+            canvasCtx.fillStyle = gradient;
             canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-            canvasCtx.lineWidth = 2;
-            canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-            canvasCtx.beginPath();
-
-            const sliceWidth = canvas.width * 1.0 / bufferLength;
-
+            const barWidth = (canvas.width / bufferLength) * 2.5;
+            let barHeight;
             let x = 0;
-            for (let i = 0; i < bufferLength; ++i) {
-                const v = dataArray[i] / 128.0;
-                const y = v * canvas.height / 2;
 
-                if (i === 0) {
-                    canvasCtx.moveTo(x, y);
-                } else {
-                    canvasCtx.lineTo(x, y);
-                }
+            for (let i = 0; i < bufferLength; i++) {
+                barHeight = (dataArray[i] / 255) * canvas.height;
 
-                x += sliceWidth;
+                // Create gradient for bars
+                const barGradient = canvasCtx.createLinearGradient(0, canvas.height - barHeight, 0, canvas.height);
+                barGradient.addColorStop(0, 'rgba(236, 72, 153, 0.8)'); // accent color
+                barGradient.addColorStop(1, 'rgba(14, 165, 233, 0.8)'); // primary color
+
+                canvasCtx.fillStyle = barGradient;
+
+                // Draw rounded bars
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(x + barWidth * 0.5, canvas.height - barHeight);
+                canvasCtx.lineTo(x + barWidth * 0.5, canvas.height);
+                canvasCtx.lineWidth = barWidth * 0.8;
+                canvasCtx.lineCap = 'round';
+                canvasCtx.strokeStyle = barGradient;
+                canvasCtx.stroke();
+
+                x += barWidth;
             }
-
-            canvasCtx.lineTo(canvas.width, canvas.height / 2);
-            canvasCtx.stroke();
         };
 
         drawVisual();
+
+        return () => {
+            audioContext.close();
+        };
     }, []);
 
     useEffect(() => {
-        stream && visualize(stream);
+        let cleanup;
+        if (stream) {
+            cleanup = visualize(stream);
+        }
+        return () => cleanup?.();
     }, [visualize, stream]);
+
     return (
-        <canvas {...props} width={720} height={240} ref={canvasRef}></canvas>
-    )
+        <canvas 
+            {...props} 
+            width={720} 
+            height={240} 
+            ref={canvasRef}
+            className={`rounded-xl ${props.className || ''}`}
+        />
+    );
 }

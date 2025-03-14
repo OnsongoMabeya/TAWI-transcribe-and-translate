@@ -123,58 +123,87 @@ function App({ supabase }) {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen mx-auto justify-end text-gray-800 bg-white">
-      <div className="h-full overflow-auto scrollbar-thin flex justify-center items-center flex-col relative">
-        <GitHubLink url="https://github.com/OnsongoMabeya/TAWI-transcribe-and-translate" />
-        <div className="flex flex-col items-center mb-1 max-w-[400px] text-center">
-          <h1 className="text-4xl font-bold mb-1">TAWI - Receiver</h1>
-          <h2 className="text-xl font-semibold">
-            Real-time in-browser speech recognition & decentralized in-browser
-          </h2>
-          <h2 className="text-xl font-semibold">
-            TAWI AI translation.
-          </h2>
-        </div>
-
-        <div className="w-[500px] p-2">
-          <div className="relative">
-            <h3 className="text-l font-semibold">
-              Transcript:{' '}
-              {
-                Object.entries(LANGUAGES).find(
-                  ([key, val]) => val === sourceLanguage
-                )?.[0]
-              }
-            </h3>
-          </div>
-
-          <p className="w-full h-[80px] overflow-y-auto overflow-wrap-anywhere border rounded-lg p-2">
-            {input}
-          </p>
-
-          <div className="textbox-container">
-            <LanguageSelector
-              type={'Target'}
-              defaultLanguage={targetLanguage}
-              onChange={(x) => {
-                setTargetLanguage(x.target.value);
-                targetLanguageRef.current = x.target.value;
-              }}
-            />
-          </div>
-
-          <p className="w-full h-[80px] overflow-y-auto overflow-wrap-anywhere border rounded-lg p-2">
-            {output}
-          </p>
-        </div>
-
-        <div className="progress-bars-container">
-          {ready === false && <label>Loading models... (only run once)</label>}
-          {progressItems.map((data) => (
-            <div key={data.file}>
-              <Progress text={data.file} percentage={data.progress} />
+    <div className="min-h-screen bg-gradient-to-br from-primary-400 via-accent-light to-primary-600 animate-gradient">
+      <div className="h-full min-h-screen overflow-auto scrollbar-thin flex justify-center items-center flex-col relative p-6">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 bg-white/30 backdrop-blur-md" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/30 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-300/30 rounded-full blur-3xl" />
+        
+        {/* Content */}
+        <div className="relative z-10 w-full max-w-4xl">
+          <GitHubLink url="https://github.com/OnsongoMabeya/TAWI-transcribe-and-translate" />
+          
+          <div className="flex flex-col items-center mb-8 animate-float">
+            <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-900 to-accent-dark">
+              TAWI - Receiver
+            </h1>
+            <div className="space-y-2 text-center">
+              <h2 className="text-2xl font-semibold text-primary-900">
+                Real-time in-browser speech recognition
+              </h2>
+              <h2 className="text-2xl font-semibold text-primary-900">
+                & decentralized in-browser TAWI AI translation
+              </h2>
             </div>
-          ))}
+          </div>
+
+          <div className="flex flex-col items-center space-y-6">
+            <div className="w-full space-y-6">
+              <div className="backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
+                <div className="mb-4">
+                  <h3 className="text-xl font-semibold text-primary-900 mb-2">
+                    Transcript:{' '}
+                    <span className="text-accent-dark">
+                      {Object.entries(LANGUAGES).find(
+                        ([key, val]) => val === sourceLanguage
+                      )?.[0]}
+                    </span>
+                  </h3>
+                  <div className="w-full min-h-[80px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
+                    {input}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-semibold text-primary-900">Translation</h3>
+                    <div className="relative">
+                      <LanguageSelector
+                        type={'Target'}
+                        defaultLanguage={targetLanguage}
+                        onChange={(x) => {
+                          setTargetLanguage(x.target.value);
+                          targetLanguageRef.current = x.target.value;
+                          translate();
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full min-h-[80px] overflow-y-auto overflow-wrap-anywhere rounded-xl bg-white/50 p-4 font-medium text-primary-900">
+                    {output}
+                  </div>
+                </div>
+              </div>
+
+              {ready === false && (
+                <div className="w-full backdrop-blur-sm bg-white/30 rounded-2xl p-6 shadow-xl border border-white/50">
+                  <p className="text-lg text-primary-900 mb-4 text-center font-medium">
+                    Loading models... (only run once)
+                  </p>
+                  <div className="space-y-4">
+                    {progressItems.map((data) => (
+                      <Progress
+                        key={data.file}
+                        text={data.file}
+                        percentage={data.progress}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
