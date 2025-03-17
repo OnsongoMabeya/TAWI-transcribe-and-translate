@@ -1,6 +1,17 @@
-# TAWI - transcribe and Translate
+# TAWI - Transcribe and Translate
 
 A real-time speech transcription and translation app that runs entirely in the browser. Built with [Transformers.js](https://huggingface.co/docs/transformers.js) for ML models and [Supabase Realtime](https://supabase.com/realtime) for live broadcasting.
+
+## Features
+
+- 🎤 Real-time speech transcription using Whisper
+- 🌍 Support for 200+ languages for translation
+- 🚀 Runs completely in the browser - no server needed
+- ⚡ Hardware-accelerated using WebGPU
+- 🔄 Live broadcasting and real-time translation
+- 📱 Responsive design for desktop and mobile
+- 🧠 Efficient ML model caching for faster loads
+- 🔒 Secure and private - all processing done locally
 
 ## How It Works
 
@@ -34,9 +45,19 @@ A real-time speech transcription and translation app that runs entirely in the b
 
 ## Requirements
 
-- Modern browser with WebGPU support
+- Modern browser with WebGPU support (Chrome Canary recommended)
 - Supabase account for realtime features
 - Microphone access for broadcasting
+- Minimum 4GB RAM recommended
+- GPU with WebGPU support for optimal performance
+
+## Browser Support
+
+- ✅ Chrome Canary (Recommended)
+- ✅ Chrome Beta with WebGPU flag enabled
+- ✅ Edge Canary with WebGPU flag enabled
+- ❌ Firefox (WebGPU support coming soon)
+- ❌ Safari (WebGPU support coming soon)
 
 ## Setup
 
@@ -52,6 +73,7 @@ A real-time speech transcription and translation app that runs entirely in the b
 
    - Create a Supabase project
    - Add URL and anon key to `.env.local`
+   - Enable Realtime features in your Supabase project
 
 4. Install dependencies and run:
 
@@ -69,7 +91,11 @@ The app can be deployed to GitHub Pages:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
 
-2. Push to main branch to trigger deployment
+2. Enable GitHub Pages in your repository settings:
+   - Go to repository Settings → Pages
+   - Set source to "GitHub Actions"
+
+3. Push to main branch to trigger deployment
 
 ## Architecture
 
@@ -78,3 +104,45 @@ The app can be deployed to GitHub Pages:
 - WebGPU for hardware acceleration
 - Supabase Realtime for broadcasting
 - TailwindCSS for styling
+
+## Models
+
+- **Whisper**: ~200MB, automatically cached after first load
+- **NLLB-200**: ~300MB, automatically cached after first load
+
+## Troubleshooting
+
+### Common Issues
+
+1. **WebGPU Not Available**
+   - Make sure you're using a supported browser
+   - Enable WebGPU flags in Chrome/Edge settings
+
+2. **Microphone Access**
+   - Grant microphone permissions in browser
+   - Check system microphone settings
+
+3. **Performance Issues**
+   - Close other resource-intensive tabs
+   - Ensure adequate GPU memory is available
+   - Check for browser console errors
+
+4. **Broadcasting Issues**
+   - Verify Supabase configuration
+   - Check network connectivity
+   - Ensure Realtime feature is enabled in Supabase
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- OpenAI for the Whisper model
+- Meta for the NLLB-200 model
+- Hugging Face for Transformers.js
+- Supabase for Realtime functionality
