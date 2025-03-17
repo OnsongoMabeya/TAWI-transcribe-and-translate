@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   worker: {
     format: 'es',
-    plugins: []
+    plugins: () => []
   },
   build: {
     rollupOptions: {
